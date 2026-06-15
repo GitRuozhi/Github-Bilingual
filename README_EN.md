@@ -1,4 +1,4 @@
-# Github Bilingual  - 中英双语界面用户脚本
+# Github Bilingual  - 中英双语界面
 
 Github Bilingual is a userscript that displays GitHub interface translations in bilingual form.
 
