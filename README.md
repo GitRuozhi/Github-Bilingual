@@ -10,6 +10,8 @@ Github Bilingual is a userscript that displays GitHub interface translations in 
 2. Install [`main.user.js`](https://github.com/GitRuozhi/Github-Bilingual/raw/gh-pages/main.user.js).
 3. Refresh GitHub pages.
 
+![Github Bilingual preview](https://raw.githubusercontent.com/GitRuozhi/Github-Bilingual/gh-pages/Preview/01.png)
+
 ## Source
 
 This project is based on [maboloshi/github-chinese](https://github.com/maboloshi/github-chinese). The original project provides the translation dictionary and matching rules.
