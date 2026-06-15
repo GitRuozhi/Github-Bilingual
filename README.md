@@ -1,12 +1,23 @@
 # Github Bilingual
 
-Github Bilingual is a userscript that displays GitHub interface text in bilingual form:
+Github Bilingual is a userscript that displays GitHub interface translations in bilingual form.
 
-```text
-English|中文
-```
+[中文说明](./Readme_ZH.md)
 
-This project is based on [maboloshi/github-chinese](https://github.com/maboloshi/github-chinese). It keeps the original translation dictionary and matching rules, and only changes how translated text is displayed.
+## Source
+
+This project is based on [maboloshi/github-chinese](https://github.com/maboloshi/github-chinese). The original project provides the translation dictionary and matching rules.
+
+## What Is Different
+
+- Displays translated interface text as `English|中文` for short text.
+- Displays longer text on two lines: original text first, translated text below it.
+- Keeps one userscript version only.
+- Keeps the original dictionary and matching rules unchanged.
+- Disables remote description translation by default.
+- Does not modify the page `<html lang>` attribute.
+- Adds a search hotfix based on upstream issue #702. The new React header/search area may stay in English so the search box keeps working.
+- Compatibility is aimed at GitHub official sites matched by the script. Non-GitHub official products or third-party GitHub-like sites are not guaranteed to work.
 
 ## Install
 

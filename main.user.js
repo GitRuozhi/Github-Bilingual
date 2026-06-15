@@ -2,17 +2,18 @@
 // @name         Github Bilingual
 // @namespace    https://github.com/GitRuozhi/Github-Bilingual
 // @description  Display GitHub interface translations as English|Chinese.
-// @copyright    2021, 沙漠之子 (https://maboloshi.github.io/Blog)
+// @source       https://github.com/maboloshi/github-chinese
+// @sourceAuthor 沙漠之子 (https://github.com/maboloshi), based on 52cik/github-hans
 // @icon         https://github.githubassets.com/pinned-octocat.svg
-// @version      1.0.0
-// @author       沙漠之子
+// @version      1.9.4-2026-06-10a
+// @author       GitRuozhi
 // @license      GPL-3.0
 // @match        https://github.com/*
 // @match        https://skills.github.com/*
 // @match        https://gist.github.com/*
 // @match        https://education.github.com/*
 // @match        https://www.githubstatus.com/*
-// @require      https://raw.githubusercontent.com/GitRuozhi/Github-Bilingual/gh-pages/locals.js?v1.0.0
+// @require      https://raw.githubusercontent.com/GitRuozhi/Github-Bilingual/gh-pages/locals.js?v1.9.4-2026-06-10a
 // @run-at       document-start
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
@@ -30,7 +31,7 @@
 
     /* =========================== 全局配置常量 =========================== */
     const CONFIG = {
-        LANG: 'zh-CN', // 默认语言
+        LANG: 'zh-CN', // 词库语言
         DEV: false, // 默认不开启开发者模式
         PAGE_MAP: { // 站点域名 -> 类型映射
             'gist.github.com': 'gist',
@@ -117,7 +118,7 @@
         // 功能开关
         featureSet: {
             enable_RegExp: GM_getValue("enable_RegExp", true),
-            enable_transDesc: GM_getValue("enable_transDesc", true),
+            enable_transDesc: GM_getValue("enable_transDesc", false),
             enable_missedTerms: GM_getValue("enable_missedTerms", false),
             enable_onurlchange: false,
         },
@@ -163,7 +164,7 @@
     /* =========================== 初始化入口 =========================== */
     function init() {
         checkI18NLoaded();
-        initLangEnv();
+        applySearchBoxHotfix();
         injectStyles();
         setupMenuCommands();
         setupInitTrans();
@@ -172,21 +173,27 @@
         State.initDone = true;
     }
 
-    /**
-     * 初始化并保护中文语言环境
-     */
-    function initLangEnv() {
-        // 设置初始语言
-        document.documentElement.lang = CONFIG.LANG;
+    function applySearchBoxHotfix() {
+        const searchSelectors = [
+            'qbsearch-input',
+            '[data-target^="qbsearch-input"]',
+            '#qb-input-query',
+            'header.GlobalNav',
+            '[class*="appHeader"]',
+            '[class*="Search-module"]',
+            '#__primerPortalRoot__',
+        ];
+        const conf = I18N && I18N.conf;
+        if (!conf) return;
 
-        // 监视语言属性变化，防止被改回英文
-        const langObserver = new MutationObserver(() => {
-            // 如果检测到语言被改回英文，重新设置
-            if (document.documentElement.lang === "en") {
-                document.documentElement.lang = CONFIG.LANG;
-            }
-        });
-        langObserver.observe(document.documentElement, { attributeFilter: ['lang'] });
+        conf.ignoreMutationSelectorPage['*'] = [
+            ...(conf.ignoreMutationSelectorPage['*'] || []),
+            ...searchSelectors
+        ];
+        conf.ignoreSelectorPage['*'] = [
+            ...(conf.ignoreSelectorPage['*'] || []),
+            ...searchSelectors
+        ];
     }
 
     /**
@@ -566,7 +573,7 @@
      */
     function handleTextNode(node) {
         if (node.length > 500) return; // 跳过长文本节点
-        transElementAttrs(node, 'data'); // 翻译文本内容
+        transTextNode(node); // 翻译文本内容
     }
 
     /**
@@ -627,13 +634,49 @@
     /* =========================== 翻译功能 =========================== */
 
     function hasBilingualDisplay(text) {
-        return /^[^|]*[a-zA-Z][^|]*\|.*[\u4e00-\u9fa5]/.test(text);
+        return /^[\s\S]*[a-zA-Z][\s\S]*(?:\||\n)[\s\S]*[\u4e00-\u9fa5]/.test(text);
     }
 
     function formatBilingualText(sourceText, translatedText) {
         if (!sourceText || !translatedText || sourceText === translatedText) return false;
         if (hasBilingualDisplay(sourceText)) return false;
-        return `${sourceText}|${translatedText}`;
+        return `${sourceText}${sourceText.length < 40 ? '|' : '\n'}${translatedText}`;
+    }
+
+    function createBilingualFragment(sourceText, translatedText) {
+        const fragment = document.createDocumentFragment();
+        fragment.append(document.createTextNode(sourceText));
+        if (sourceText.length < 40) {
+            fragment.append(document.createTextNode('|'));
+        } else {
+            fragment.append(document.createElement('br'));
+        }
+        fragment.append(document.createTextNode(translatedText));
+        return fragment;
+    }
+
+    function transTextNode(node) {
+        const text = node.data;
+        if (!text) return;
+
+        const result = transText(text);
+        if (!result) return;
+
+        const trimmedText = text.trim();
+        const cleanedText = trimmedText.replace(/\xa0|[\s]+/g, ' ');
+        const translatedText = fetchTransResult(cleanedText);
+        if (!translatedText || cleanedText.length < 40) {
+            node.data = result;
+            return;
+        }
+
+        const leading = text.match(/^\s*/)?.[0] || '';
+        const trailing = text.match(/\s*$/)?.[0] || '';
+        const fragment = document.createDocumentFragment();
+        if (leading) fragment.append(document.createTextNode(leading));
+        fragment.append(createBilingualFragment(cleanedText, translatedText));
+        if (trailing) fragment.append(document.createTextNode(trailing));
+        node.replaceWith(fragment);
     }
 
     /**
@@ -708,9 +751,9 @@
         State.pageConfig.transSelectors?.forEach(([selector, result]) => {
             const element = document.querySelector(selector);
             if (element) {
-                const displayText = formatBilingualText(element.textContent.trim(), result);
-                if (displayText) {
-                    element.textContent = displayText; // 应用翻译
+                const sourceText = element.textContent.trim();
+                if (sourceText && result && sourceText !== result && !hasBilingualDisplay(sourceText)) {
+                    element.replaceChildren(createBilingualFragment(sourceText, result)); // 应用翻译
                 }
             }
         });
