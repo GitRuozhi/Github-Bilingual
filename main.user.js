@@ -5,7 +5,7 @@
 // @source       https://github.com/maboloshi/github-chinese
 // @sourceAuthor 沙漠之子 (https://github.com/maboloshi), based on 52cik/github-hans
 // @icon         https://github.githubassets.com/pinned-octocat.svg
-// @version      1.9.4-2026-06-10a
+// @version      1.9.4-2026-06-10b
 // @author       GitRuozhi
 // @license      GPL-3.0
 // @match        https://github.com/*
@@ -13,7 +13,7 @@
 // @match        https://gist.github.com/*
 // @match        https://education.github.com/*
 // @match        https://www.githubstatus.com/*
-// @require      https://raw.githubusercontent.com/GitRuozhi/Github-Bilingual/gh-pages/locals.js?v1.9.4-2026-06-10a
+// @require      https://raw.githubusercontent.com/GitRuozhi/Github-Bilingual/gh-pages/locals.js?v1.9.4-2026-06-10b
 // @run-at       document-start
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
@@ -175,6 +175,7 @@
 
     function applySearchBoxHotfix() {
         const searchSelectors = [
+            '.ghb-bilingual',
             'qbsearch-input',
             '[data-target^="qbsearch-input"]',
             '#qb-input-query',
@@ -536,6 +537,12 @@
             return;
         }
 
+        if (rootNode.nodeType === Node.ELEMENT_NODE
+            && State.pageConfig.ignoreSelectors
+            && rootNode.matches(State.pageConfig.ignoreSelectors)) {
+            return;
+        }
+
         // 创建TreeWalker遍历节点树
         const treeWalker = document.createTreeWalker(
             rootNode,
@@ -643,16 +650,17 @@
         return `${sourceText}${sourceText.length < 40 ? '|' : '\n'}${translatedText}`;
     }
 
-    function createBilingualFragment(sourceText, translatedText) {
-        const fragment = document.createDocumentFragment();
-        fragment.append(document.createTextNode(sourceText));
+    function createBilingualElement(sourceText, translatedText) {
+        const element = document.createElement('span');
+        element.className = 'ghb-bilingual';
+        element.append(document.createTextNode(sourceText));
         if (sourceText.length < 40) {
-            fragment.append(document.createTextNode('|'));
+            element.append(document.createTextNode('|'));
         } else {
-            fragment.append(document.createElement('br'));
+            element.append(document.createElement('br'));
         }
-        fragment.append(document.createTextNode(translatedText));
-        return fragment;
+        element.append(document.createTextNode(translatedText));
+        return element;
     }
 
     function transTextNode(node) {
@@ -674,7 +682,7 @@
         const trailing = text.match(/\s*$/)?.[0] || '';
         const fragment = document.createDocumentFragment();
         if (leading) fragment.append(document.createTextNode(leading));
-        fragment.append(createBilingualFragment(cleanedText, translatedText));
+        fragment.append(createBilingualElement(cleanedText, translatedText));
         if (trailing) fragment.append(document.createTextNode(trailing));
         node.replaceWith(fragment);
     }
@@ -753,7 +761,7 @@
             if (element) {
                 const sourceText = element.textContent.trim();
                 if (sourceText && result && sourceText !== result && !hasBilingualDisplay(sourceText)) {
-                    element.replaceChildren(createBilingualFragment(sourceText, result)); // 应用翻译
+                    element.replaceChildren(createBilingualElement(sourceText, result)); // 应用翻译
                 }
             }
         });
