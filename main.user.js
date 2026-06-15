@@ -5,7 +5,7 @@
 // @source       https://github.com/maboloshi/github-chinese
 // @sourceAuthor 沙漠之子 (https://github.com/maboloshi), based on 52cik/github-hans
 // @icon         https://github.githubassets.com/pinned-octocat.svg
-// @version      1.9.4-2026-06-10b
+// @version      1.9.4-2026-06-10c
 // @author       GitRuozhi
 // @license      GPL-3.0
 // @match        https://github.com/*
@@ -13,7 +13,7 @@
 // @match        https://gist.github.com/*
 // @match        https://education.github.com/*
 // @match        https://www.githubstatus.com/*
-// @require      https://raw.githubusercontent.com/GitRuozhi/Github-Bilingual/gh-pages/locals.js?v1.9.4-2026-06-10b
+// @require      https://raw.githubusercontent.com/GitRuozhi/Github-Bilingual/gh-pages/locals.js?v1.9.4-2026-06-10c
 // @run-at       document-start
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
@@ -175,7 +175,6 @@
 
     function applySearchBoxHotfix() {
         const searchSelectors = [
-            '.ghb-bilingual',
             'qbsearch-input',
             '[data-target^="qbsearch-input"]',
             '#qb-input-query',
@@ -580,7 +579,7 @@
      */
     function handleTextNode(node) {
         if (node.length > 500) return; // 跳过长文本节点
-        transTextNode(node); // 翻译文本内容
+        transElementAttrs(node, 'data'); // 翻译文本内容
     }
 
     /**
@@ -648,43 +647,6 @@
         if (!sourceText || !translatedText || sourceText === translatedText) return false;
         if (hasBilingualDisplay(sourceText)) return false;
         return `${sourceText}${sourceText.length < 40 ? '|' : '\n'}${translatedText}`;
-    }
-
-    function createBilingualElement(sourceText, translatedText) {
-        const element = document.createElement('span');
-        element.className = 'ghb-bilingual';
-        element.append(document.createTextNode(sourceText));
-        if (sourceText.length < 40) {
-            element.append(document.createTextNode('|'));
-        } else {
-            element.append(document.createElement('br'));
-        }
-        element.append(document.createTextNode(translatedText));
-        return element;
-    }
-
-    function transTextNode(node) {
-        const text = node.data;
-        if (!text) return;
-
-        const result = transText(text);
-        if (!result) return;
-
-        const trimmedText = text.trim();
-        const cleanedText = trimmedText.replace(/\xa0|[\s]+/g, ' ');
-        const translatedText = fetchTransResult(cleanedText);
-        if (!translatedText || cleanedText.length < 40) {
-            node.data = result;
-            return;
-        }
-
-        const leading = text.match(/^\s*/)?.[0] || '';
-        const trailing = text.match(/\s*$/)?.[0] || '';
-        const fragment = document.createDocumentFragment();
-        if (leading) fragment.append(document.createTextNode(leading));
-        fragment.append(createBilingualElement(cleanedText, translatedText));
-        if (trailing) fragment.append(document.createTextNode(trailing));
-        node.replaceWith(fragment);
     }
 
     /**
@@ -761,7 +723,7 @@
             if (element) {
                 const sourceText = element.textContent.trim();
                 if (sourceText && result && sourceText !== result && !hasBilingualDisplay(sourceText)) {
-                    element.replaceChildren(createBilingualElement(sourceText, result)); // 应用翻译
+                    element.textContent = formatBilingualText(sourceText, result); // 应用翻译
                 }
             }
         });
