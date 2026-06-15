@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Github Bilingual
+// @name         GitHub Bilingual - 中英双语界面
 // @namespace    https://github.com/GitRuozhi/Github-Bilingual
-// @description  GitHub 中英 双语 界面。Display GitHub interface translations as English | Chinese.
+// @description  GitHub 中英双语界面  English | Chinese bilingual userscript
 // @icon         https://github.githubassets.com/pinned-octocat.svg
 // @version      1.9.4-2026-06-15-d
 // @author       GitRuozhi
