@@ -1,11 +1,9 @@
 // ==UserScript==
 // @name         Github Bilingual
 // @namespace    https://github.com/GitRuozhi/Github-Bilingual
-// @description  Display GitHub interface translations as English|Chinese.
-// @source       https://github.com/maboloshi/github-chinese
-// @sourceAuthor 沙漠之子 (https://github.com/maboloshi), based on 52cik/github-hans
+// @description  Display GitHub interface translations as English | Chinese.
 // @icon         https://github.githubassets.com/pinned-octocat.svg
-// @version      1.9.4-2026-06-10c
+// @version      1.9.4-2026-06-15-d
 // @author       GitRuozhi
 // @license      GPL-3.0
 // @match        https://github.com/*
@@ -13,7 +11,7 @@
 // @match        https://gist.github.com/*
 // @match        https://education.github.com/*
 // @match        https://www.githubstatus.com/*
-// @require      https://raw.githubusercontent.com/GitRuozhi/Github-Bilingual/gh-pages/locals.js?v1.9.4-2026-06-10c
+// @require      https://raw.githubusercontent.com/GitRuozhi/Github-Bilingual/gh-pages/locals.js?v1.9.4-2026-06-15-d
 // @run-at       document-start
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
@@ -24,6 +22,11 @@
 // @grant        GM_notification
 // @connect      fanyi.iflyrec.com
 // @supportURL   https://github.com/GitRuozhi/Github-Bilingual/issues
+
+// Based on maboloshi/github-chinese.
+// Original author/copyright: 沙漠之子 (https://maboloshi.github.io/Blog)
+// Modified by: GitRuozhi.
+
 // ==/UserScript==
 
 (function (window, document, undefined) {
@@ -99,6 +102,9 @@
             .translation-content {
                 margin-top: 5px;
                 white-space: pre-wrap;
+            }
+            .ghb-bilingual-text {
+                white-space: pre-line;
             }
 
             /* 暗色主题适配 - 使用 prefers-color-scheme */
@@ -646,7 +652,14 @@
     function formatBilingualText(sourceText, translatedText) {
         if (!sourceText || !translatedText || sourceText === translatedText) return false;
         if (hasBilingualDisplay(sourceText)) return false;
-        return `${sourceText}${sourceText.length < 40 ? '|' : '\n'}${translatedText}`;
+        return `${sourceText}${sourceText.length < 40 ? ' | ' : '\n'}${translatedText}`;
+    }
+
+    function markBilingualTextContainer(target, displayText) {
+        if (!displayText?.includes('\n')) return;
+
+        const element = target?.nodeType === Node.TEXT_NODE ? target.parentElement : target;
+        element?.classList?.add('ghb-bilingual-text');
     }
 
     /**
@@ -701,6 +714,7 @@
         const result = transText(text);
         if (result) {
             target[attrName] = result;
+            markBilingualTextContainer(target, result);
         }
     }
 
@@ -723,7 +737,11 @@
             if (element) {
                 const sourceText = element.textContent.trim();
                 if (sourceText && result && sourceText !== result && !hasBilingualDisplay(sourceText)) {
-                    element.textContent = formatBilingualText(sourceText, result); // 应用翻译
+                    const displayText = formatBilingualText(sourceText, result);
+                    if (displayText) {
+                        element.textContent = displayText; // 应用翻译
+                        markBilingualTextContainer(element, displayText);
+                    }
                 }
             }
         });
