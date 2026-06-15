@@ -1,8 +1,10 @@
-# Github Bilingual
+# Github Bilingual  - 中英双语界面用户脚本
 
-Github Bilingual 是一个用户脚本，用于把 GitHub 界面翻译显示为双语形式。
+这是一个 GitHub 中英双语界面油猴脚本。它不会把 GitHub 完全替换成中文，而是在保留英文原文的同时显示中文翻译。
 
-[English README](./README.md)
+## 预览
+
+![Github Bilingual preview](https://raw.githubusercontent.com/GitRuozhi/Github-Bilingual/gh-pages/Preview/01.png)
 
 ## 安装
 
