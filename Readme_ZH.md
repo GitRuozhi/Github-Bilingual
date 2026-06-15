@@ -10,6 +10,8 @@ Github Bilingual 是一个用户脚本，用于把 GitHub 界面翻译显示为�
 2. 安装 [`main.user.js`](https://github.com/GitRuozhi/Github-Bilingual/raw/gh-pages/main.user.js)。
 3. 刷新 GitHub 页面。
 
+![Github Bilingual 预览图](https://raw.githubusercontent.com/GitRuozhi/Github-Bilingual/gh-pages/Preview/01.png)
+
 ## 来源
 
 本项目源自 [maboloshi/github-chinese](https://github.com/maboloshi/github-chinese)。源项目提供翻译词库和匹配规则。
