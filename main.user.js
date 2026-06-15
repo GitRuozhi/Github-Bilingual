@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name         GitHub 中文化插件
-// @namespace    https://github.com/maboloshi/github-chinese
-// @description  中文化 GitHub 界面的部分菜单及内容。原作者为楼教主(http://www.52cik.com/)。
+// @name         Github Bilingual
+// @namespace    https://github.com/GitRuozhi/Github-Bilingual
+// @description  Display GitHub interface translations as English|Chinese.
 // @copyright    2021, 沙漠之子 (https://maboloshi.github.io/Blog)
 // @icon         https://github.githubassets.com/pinned-octocat.svg
-// @version      1.9.4-2026-06-10
+// @version      1.0.0
 // @author       沙漠之子
 // @license      GPL-3.0
 // @match        https://github.com/*
@@ -12,7 +12,7 @@
 // @match        https://gist.github.com/*
 // @match        https://education.github.com/*
 // @match        https://www.githubstatus.com/*
-// @require      https://raw.githubusercontent.com/maboloshi/github-chinese/gh-pages/locals.js?v1.9.4-2026-06-10
+// @require      https://raw.githubusercontent.com/GitRuozhi/Github-Bilingual/gh-pages/locals.js?v1.0.0
 // @run-at       document-start
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
@@ -22,7 +22,7 @@
 // @grant        GM_unregisterMenuCommand
 // @grant        GM_notification
 // @connect      fanyi.iflyrec.com
-// @supportURL   https://github.com/maboloshi/github-chinese/issues
+// @supportURL   https://github.com/GitRuozhi/Github-Bilingual/issues
 // ==/UserScript==
 
 (function (window, document, undefined) {
@@ -626,6 +626,16 @@
 
     /* =========================== 翻译功能 =========================== */
 
+    function hasBilingualDisplay(text) {
+        return /^[^|]*[a-zA-Z][^|]*\|.*[\u4e00-\u9fa5]/.test(text);
+    }
+
+    function formatBilingualText(sourceText, translatedText) {
+        if (!sourceText || !translatedText || sourceText === translatedText) return false;
+        if (hasBilingualDisplay(sourceText)) return false;
+        return `${sourceText}|${translatedText}`;
+    }
+
     /**
      * 翻译页面标题
      */
@@ -644,7 +654,10 @@
 
         // 应用翻译结果
         if (result) {
-            document.title = result;
+            const displayText = formatBilingualText(text, result);
+            if (displayText) {
+                document.title = displayText;
+            }
         }
     }
 
@@ -695,7 +708,10 @@
         State.pageConfig.transSelectors?.forEach(([selector, result]) => {
             const element = document.querySelector(selector);
             if (element) {
-                element.textContent = result; // 应用翻译
+                const displayText = formatBilingualText(element.textContent.trim(), result);
+                if (displayText) {
+                    element.textContent = displayText; // 应用翻译
+                }
             }
         });
     }
@@ -723,7 +739,10 @@
         // 获取翻译
         const result = fetchTransResult(cleanedText);
         if (result && result !== cleanedText) {
-            return text.replace(trimmedText, result);
+            const displayText = formatBilingualText(cleanedText, result);
+            if (displayText) {
+                return text.replace(trimmedText, displayText);
+            }
         }
 
         return false;
