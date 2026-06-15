@@ -655,11 +655,20 @@
         return `${sourceText}${sourceText.length < 40 ? ' | ' : '\n'}${translatedText}`;
     }
 
-    function markBilingualTextContainer(target, displayText) {
-        if (!displayText?.includes('\n')) return;
+    function shouldUseBilingualLineBreak(sourceText) {
+        const cleanedText = String(sourceText || '').trim().replace(/\xa0|[\s]+/g, ' ');
+        return cleanedText.length >= 40;
+    }
 
+    function markBilingualTextContainer(target, sourceText) {
         const element = target?.nodeType === Node.TEXT_NODE ? target.parentElement : target;
-        element?.classList?.add('ghb-bilingual-text');
+        if (!element?.classList) return;
+
+        if (shouldUseBilingualLineBreak(sourceText)) {
+            element.classList.add('ghb-bilingual-text');
+        } else {
+            element.classList.remove('ghb-bilingual-text');
+        }
     }
 
     /**
@@ -714,7 +723,7 @@
         const result = transText(text);
         if (result) {
             target[attrName] = result;
-            markBilingualTextContainer(target, result);
+            markBilingualTextContainer(target, text);
         }
     }
 
@@ -740,7 +749,7 @@
                     const displayText = formatBilingualText(sourceText, result);
                     if (displayText) {
                         element.textContent = displayText; // 应用翻译
-                        markBilingualTextContainer(element, displayText);
+                        markBilingualTextContainer(element, sourceText);
                     }
                 }
             }
