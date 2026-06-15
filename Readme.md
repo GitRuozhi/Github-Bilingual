@@ -2,17 +2,13 @@
 
 这是一个 GitHub 中英双语界面油猴脚本。它不会把 GitHub 完全替换成中文，而是在保留英文原文的同时显示中文翻译。
 
+## 安装
+
+油猴链接 https://greasyfork.org/zh-CN/scripts/582799-github-bilingual/
+
 ## 预览
 
 ![Github Bilingual preview](https://raw.githubusercontent.com/GitRuozhi/Github-Bilingual/gh-pages/Preview/01.png)
-
-## 安装
-
-1. 安装用户脚本管理器，例如 [Tampermonkey](https://www.tampermonkey.net/) 或 [Violentmonkey](https://violentmonkey.github.io/)。
-2. 安装 [`main.user.js`](https://github.com/GitRuozhi/Github-Bilingual/raw/gh-pages/main.user.js)。
-3. 刷新 GitHub 页面。
-
-![Github Bilingual 预览图](https://raw.githubusercontent.com/GitRuozhi/Github-Bilingual/gh-pages/Preview/01.png)
 
 ## 来源
 
