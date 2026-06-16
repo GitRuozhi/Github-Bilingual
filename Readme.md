@@ -1,8 +1,6 @@
-# Github Bilingual  - 中英双语界面用户脚本
+# Github Bilingual  -  Github 中英双语界面
 
-这是一个 GitHub 中英双语界面油猴脚本，基于[maboloshi/github-chinese](https://github.com/maboloshi/github-chinese)  。它不会把 GitHub 完全替换成中文，而是在保留英文原文的同时显示中文翻译。
-
-This is a GitHub Chinese-English bilingual interface Oil Monkey script based on [maboloshi/github-chinese](https://github.com/maboloshi/github-chinese) . It does not completely replace GitHub with Chinese, but shows Chinese translation while retaining the original English text.
+这是一个 GitHub 中英双语界面油猴脚本，基于[maboloshi/github-chinese](https://github.com/maboloshi/github-chinese)  。它不会把 GitHub 完全替换成中文，而是在保留英文原文的同时显示中文翻译。<br><sub>This is a GitHub Chinese-English bilingual interface Oil Monkey script based on [maboloshi/github-chinese](https://github.com/maboloshi/github-chinese) . It does not completely replace GitHub with Chinese, but shows Chinese translation while retaining the original English text.</sub>
 
 ## 安装 | Install
 
