@@ -20,7 +20,7 @@
 - 使用源项目提供的翻译词库和匹配规则。<br><sub>Use the translation lexicon and matching rules provided by the source project.  </sub>
 
 
-- 修改基于版本：`1.9.4.4-2026-06-21`，本分支版本号：`1.9.4.4-2026-06-21a`<br><sub>Revised based on version :`1.9.4.4-2026-06-21`, this branch version number :`1.9.4.4-2026-06-21a` </sub>
+- 修改基于版本：`1.9.4.4-2026-07-01`，本分支版本号：`1.9.4.4-2026-07-01a`<br><sub>Revised based on version :`1.9.4.4-2026-07-01`, this branch version number :`1.9.4.4-2026-07-01a` </sub>
 
 
 - 默认禁用远程描述翻译，需要时可在脚本菜单中手动开启。<br><sub>Remote description translation is disabled by default, and can be opened manually in the script menu when needed. </sub>
