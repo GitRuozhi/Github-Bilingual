@@ -4,7 +4,9 @@
 
 ## 安装 | Install
 
-[访问Greasyfork进行安装 | Visit Greasyfork for installation](https://greasyfork.org/zh-CN/scripts/582799-github-bilingual/) 
+[访问 Greasyfork 进行安装 | Visit Greasyfork for installation](https://greasyfork.org/zh-CN/scripts/582799-github-bilingual/) 
+
+[访问 Github 获取源码 | Visit Github for Code](https://github.com/GitRuozhi/Github-Bilingual/)
 
 ## 预览 | Preview
 
