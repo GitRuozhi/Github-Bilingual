@@ -3,7 +3,7 @@
 // @namespace    https://github.com/GitRuozhi/Github-Bilingual
 // @description  GitHub 中英双语界面  English | Chinese bilingual userscript
 // @icon         https://github.githubassets.com/pinned-octocat.svg
-// @version      1.9.4.4-2026-07-01a
+// @version      1.9.4.4-2026-07-26a
 // @author       GitRuozhi
 // @license      GPL-3.0
 // @match        https://github.com/*
@@ -11,7 +11,7 @@
 // @match        https://gist.github.com/*
 // @match        https://education.github.com/*
 // @match        https://www.githubstatus.com/*
-// @require      https://greasyfork.org/scripts/435207-github-%E4%B8%AD%E6%96%87%E5%8C%96%E6%8F%92%E4%BB%B6-%E4%B8%AD%E6%96%87%E8%AF%8D%E5%BA%93%E8%A7%84%E5%88%99/code/GitHub%20%E4%B8%AD%E6%96%87%E5%8C%96%E6%8F%92%E4%BB%B6%20-%20%E4%B8%AD%E6%96%87%E8%AF%8D%E5%BA%93%E8%A7%84%E5%88%99.js?v1.9.4.4-2026-07-01a
+// @require      https://greasyfork.org/scripts/435207-github-%E4%B8%AD%E6%96%87%E5%8C%96%E6%8F%92%E4%BB%B6-%E4%B8%AD%E6%96%87%E8%AF%8D%E5%BA%93%E8%A7%84%E5%88%99/code/GitHub%20%E4%B8%AD%E6%96%87%E5%8C%96%E6%8F%92%E4%BB%B6%20-%20%E4%B8%AD%E6%96%87%E8%AF%8D%E5%BA%93%E8%A7%84%E5%88%99.js?v1.9.4.4-2026-07-26a
 // @run-at       document-start
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
@@ -571,7 +571,6 @@
             const element = node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
             if (!element) return true;
             if (element.closest?.(unsafeTextSelector)) return true;
-            if (element.closest?.(searchModuleSelector)) return true;
             if (element.closest?.(searchSurfaceSelector)) return true;
 
             return false;
@@ -635,6 +634,7 @@
                     translateReactGlobalNavElement(element, element.getAttribute('data-content'));
                 }
             });
+            translateReactGlobalNavSearchButton();
             translateReactGlobalNavSurface(header);
 
             return true;
@@ -662,8 +662,37 @@
             return !searchPortalPending;
         }
 
+        function translateReactGlobalNavSearchButton() {
+            const placeholder = document.querySelector('header.GlobalNav [class*="Search-module__placeholder__"]');
+            if (!placeholder) return;
+            const text = placeholder.textContent;
+            const label = formatReactGlobalNavText(text);
+            if (label && placeholder.textContent !== label) {
+                placeholder.textContent = label;
+            }
+        }
+
+        function translateReactGlobalNavSearchDialog() {
+            const dialog = document.querySelector('#search-suggestions-dialog');
+            if (!dialog) return;
+            const header = document.getElementById('search-suggestions-dialog-header');
+            if (header) {
+                const label = formatReactGlobalNavText(header.textContent);
+                if (label) header.textContent = label;
+            }
+            dialog.querySelectorAll('.ActionList-sectionDivider-title').forEach(el => {
+                const label = formatReactGlobalNavText(el.textContent);
+                if (label) el.textContent = label;
+            });
+            dialog.querySelectorAll('.search-feedback-prompt a, .search-feedback-prompt button').forEach(el => {
+                const label = formatReactGlobalNavText(el.textContent);
+                if (label) el.textContent = label;
+            });
+        }
+
         function translateReactGlobalNavLabels(options = { requireSettledHeader: true }) {
             observeReactGlobalNav();
+            translateReactGlobalNavSearchDialog();
 
             const headerTranslated = translateReactGlobalNavHeader();
             const portalsTranslated = translateReactGlobalNavPortals();
