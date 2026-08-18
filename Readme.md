@@ -12,23 +12,14 @@
 
 ![Github Bilingual preview](https://raw.githubusercontent.com/GitRuozhi/Github-Bilingual/gh-pages/Preview/01.png)
 
-
-
 ## 说明 | Description 
 
 - 短文本显示为 `English | 中文`，长文本显示为两行：第一行原文，第二行译文。<br><sub>The short text is displayed as `English | 中文`,  the long text is displayed as two lines : the first line of the original text and the second line of the translation. </sub>
 
-
 - 使用源项目提供的翻译词库和匹配规则。<br><sub>Use the translation lexicon and matching rules provided by the source project.  </sub>
-
-
-- 修改基于版本：`1.9.4.4-2026-08-16`，本分支版本号：`1.9.4.4-2026-08-16a`<br><sub>Revised based on version :`1.9.4.4-2026-08-16`, this branch version number :`1.9.4.4-2026-08-16a` </sub>
-
 
 - 默认禁用远程描述翻译，需要时可在脚本菜单中手动开启。<br><sub>Remote description translation is disabled by default, and can be opened manually in the script menu when needed. </sub>
 
-
 - 取消修改页面语言属性。<br><sub>Cancel modify the page language attributes. </sub>
 
-
-- 已同步上游 React 头部/搜索栏修复，顶部导航会在搜索框和弹层空闲后进行双语翻译。<br><sub>Synced the upstream React header/search fix. The top navigation is translated bilingually after the search box and portal surfaces become idle. </sub>
+- 修改基于版本：`1.9.4.4-2026-08-16`，本分支版本号：`1.9.4.4-2026-08-16a`<br><sub>Revised based on version :`1.9.4.4-2026-08-16`, this branch version number :`1.9.4.4-2026-08-16a` </sub>
