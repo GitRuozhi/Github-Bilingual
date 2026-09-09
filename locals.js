@@ -65,6 +65,11 @@ I18N.conf = {
             '.js-full-logs-container', // 工作流运行日志
             'span.PRIVATE_TreeView-item-content-text', // 文件树文件夹/文件名
             'span.ActionList-item-label', // PR 文件树文件夹/文件名
+            'div.commit-title', // 提交标题（经典 UI）
+            'div.commit-desc', // 提交说明（经典 UI）
+            'span.ws-pre-wrap', // 提交说明
+            "h4[class^='Title-module__heading']", // 提交标题
+            'div[class^="CommitHeader-module__commitMessageContainer"]', // PR changes 页提交消息容器
         ],
         'repository/compare': [
             "tbody", // 代码差异
@@ -189,6 +194,11 @@ I18N.conf = {
             '.js-full-logs-container', // 工作流运行日志
             'span.PRIVATE_TreeView-item-content-text', // 文件树文件夹/文件名
             'span.ActionList-item-label', // PR 文件树文件夹/文件名
+            'div.commit-title', // 提交标题（经典 UI）
+            'div.commit-desc', // 提交说明（经典 UI）
+            'span.ws-pre-wrap', // 提交说明
+            "h4[class^='Title-module__heading']", // 提交标题
+            'div[class^="CommitHeader-module__commitMessageContainer"]', // PR changes 页提交消息容器
         ],
         'repository/compare': [
             'td.blob-code', // 代码差异 分屏/同屏
@@ -1977,7 +1987,7 @@ I18N["zh-CN"]["public"] = { // 公共区域翻译
         }],
 
         // 其他翻译
-        [/to enable two-factor authentication as an additional security measure. Your activity on GitHub includes you in this requirement. You will need to enable two-factor authentication on your account before ([^ ]+), or be restricted from account actions./, "启用双因素身份验证（2FA）作为额外安全措施。您在 GitHub 上的活动让您接收到此要求。您将需要在 $1 前启用双因素身份验证，否则会被限制账户操作。"],
+        [/to enable two-factor authentication as an additional security measure. Your activity on GitHub includes you in this requirement. You will need to enable two-factor authentication on your account before ?(.+?), or be restricted from account actions./, "启用双因素身份验证（2FA）作为额外安全措施。您在 GitHub 上的活动让您接收到此要求。您将需要在 $1 前启用双因素身份验证，否则会被限制账户操作。"],
     ],
     "time-regexp": [ // 时间正则翻译专项
         /**
@@ -10072,7 +10082,7 @@ I18N["zh-CN"]["repository/issues"] = { // 仓库 - 议题页面
             "Filter authors": "筛选作者",
             "Filter by assignees": "筛选受理人",
                 "No assignees": "无人受理",
-            
+
             // 左侧栏
             "Assigned to me": "分配给您",
             "Created by me": "由您创建",
@@ -24726,7 +24736,7 @@ I18N["zh-CN"]["orgs/people"] = { // 组织 - 成员标签卡
             [/Pending Members · People/, "待处理成员"],
             [/Members · People/, "成员"],
             [/Outside Collaborators · People/, "外部协作者 · 成员"],
-            [/Pending Collaborators · People/, "待定协作者 · 成员"], 
+            [/Pending Collaborators · People/, "待定协作者 · 成员"],
             [/Failed Invitations · People/, "失败邀请 · 成员"],
             [/Security Managers for/, "安全管理员"],
         ],

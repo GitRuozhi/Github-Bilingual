@@ -22,4 +22,4 @@
 
 - 取消修改页面语言属性。<br><sub>Cancel modify the page language attributes. </sub>
 
-- 修改基于版本：`1.9.4.4-2026-08-16`，本分支版本号：`1.9.4.4-2026-08-16a`<br><sub>Revised based on version :`1.9.4.4-2026-08-16`, this branch version number :`1.9.4.4-2026-08-16a` </sub>
+- 修改基于版本：`1.9.4.4-2026-08-25`，本分支版本号：`1.9.4.4-2026-08-25a`<br><sub>Revised based on version :`1.9.4.4-2026-08-25`, this branch version number :`1.9.4.4-2026-08-25a` </sub>
