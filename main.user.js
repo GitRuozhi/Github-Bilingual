@@ -3,7 +3,7 @@
 // @namespace    https://github.com/GitRuozhi/Github-Bilingual
 // @description  GitHub 中英双语界面  English | Chinese bilingual userscript
 // @icon         https://github.githubassets.com/pinned-octocat.svg
-// @version      1.9.4.4-2026-10-14a
+// @version      1.9.4.4-2026-10-14b
 // @author       GitRuozhi
 // @license      GPL-3.0
 // @match        https://github.com/*
