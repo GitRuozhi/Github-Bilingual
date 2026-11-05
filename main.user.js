@@ -3,7 +3,7 @@
 // @namespace    https://github.com/GitRuozhi/Github-Bilingual
 // @description  GitHub 中英双语界面  English | Chinese bilingual userscript
 // @icon         https://github.githubassets.com/pinned-octocat.svg
-// @version      1.9.4.4-2026-09-27a
+// @version      1.9.4.4-2026-10-14a
 // @author       GitRuozhi
 // @license      GPL-3.0
 // @match        https://github.com/*
@@ -11,7 +11,7 @@
 // @match        https://gist.github.com/*
 // @match        https://education.github.com/*
 // @match        https://www.githubstatus.com/*
-// @require      https://greasyfork.org/scripts/435207-github-%E4%B8%AD%E6%96%87%E5%8C%96%E6%8F%92%E4%BB%B6-%E4%B8%AD%E6%96%87%E8%AF%8D%E5%BA%93%E8%A7%84%E5%88%99/code/GitHub%20%E4%B8%AD%E6%96%87%E5%8C%96%E6%8F%92%E4%BB%B6%20-%20%E4%B8%AD%E6%96%87%E8%AF%8D%E5%BA%93%E8%A7%84%E5%88%99.js?v1.9.4.4-2026-09-27a
+// @require      https://raw.githubusercontent.com/maboloshi/github-chinese/gh-pages/locals.js?v1.9.4.4-2026-10-14
 // @run-at       document-start
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
@@ -355,7 +355,8 @@
         const isSession = document.body.classList.contains("session-authentication");
         const isHomepage = pathname === '/' && site === 'github';
         const isProfile = document.body.classList.contains("page-profile") || metaLocation === '/<user-name>';
-        const isRepository = /\/<user-name>\/<repo-name>/.test(metaLocation);
+        const isRepository = /\/<user-name>\/<repo-name>/.test(metaLocation)
+            || !!document.head.querySelector('meta[name="octolytics-dimension-repository_nwo"]')?.content;
         const isOrganization = /\/<org-login>/.test(metaLocation) || /^\/(?:orgs|organizations)/.test(pathname);
 
         let pageType;
@@ -1080,8 +1081,8 @@
         // 获取时间文本
         const text = element.textContent;
         if (!text) return;
-        // 移除开头的"on"
-        const result = text.replace(/^on/, "");
+        // 移除时间文本中的"on"
+        const result = text.replace(/\bon\s+/gi, (match, offset) => offset === 0 ? " " : "");
         if (result !== text) {
             element.textContent = result; // 应用翻译
         }
