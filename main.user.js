@@ -11,7 +11,7 @@
 // @match        https://gist.github.com/*
 // @match        https://education.github.com/*
 // @match        https://www.githubstatus.com/*
-// @require      https://raw.githubusercontent.com/maboloshi/github-chinese/gh-pages/locals.js?v1.9.4.4-2026-10-14
+// @require      https://cdn.jsdelivr.net/gh/maboloshi/github-chinese@a4c8e989db0c584be4e51faf14cb0a34c184dcce/locals.js
 // @run-at       document-start
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
