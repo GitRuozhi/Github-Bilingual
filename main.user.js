@@ -1143,9 +1143,11 @@
         // 1. 空文本（包空白字符）或纯数字
         // 2. 纯中文字符
         // 3. 不包含英文字母和,.符号的文本
+        // 4. 已有双语显示的文本（合并空白前识别双语换行）
         if (/^[\s0-9]*$/.test(text) ||
             /^[\u4e00-\u9fa5]+$/.test(text) ||
-            !/[a-zA-Z,.]/.test(text)) {
+            !/[a-zA-Z,.]/.test(text) ||
+            hasBilingualDisplay(text)) {
             return false;
         }
 
