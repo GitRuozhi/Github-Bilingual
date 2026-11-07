@@ -22,9 +22,13 @@
 
 - 取消修改页面语言属性。<br><sub>Cancel modify the page language attributes. </sub>
 
-- 修改基于版本：`1.9.4.4-2026-10-14`，本分支版本号：`1.9.4.4-2026-10-14b`<br><sub>Revised based on version :`1.9.4.4-2026-10-14`, this branch version number :`1.9.4.4-2026-10-14b` </sub>
+- 修改基于版本：`1.9.4.4-2026-10-14`，本分支版本号：`1.9.4.4-2026-10-14c`<br><sub>Revised based on version :`1.9.4.4-2026-10-14`, this branch version number :`1.9.4.4-2026-10-14c` </sub>
 
 ## 更新日志
+
+V1.9.4.4-2026-10-14c：
+
+- 修复 Issue 和 PR 页面重复追加译文的问题
 
 V1.9.4.4-2026-10-14b：
 
